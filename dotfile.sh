@@ -19,6 +19,10 @@ function install() {
     [[ -f aliases.zsh ]] && cp aliases.zsh $HOME/.aliases.zsh
     [[ -f functions.zsh ]] && cp functions.zsh $HOME/.functions.zsh
 
+    [[ -f p10k.zsh ]] && cp functions.zsh $HOME/.p10k.zsh
+
+    [[ -f iterm2.json ]] && cp iterm2.json $HOME/.iterm2.json
+
     [[ -f bashrc ]] && cp bashrc $HOME/.bashrc
     [[ -f bash_aliases ]] && cp bash_aliases $HOME/.bash_aliases
 
@@ -41,6 +45,10 @@ function backup() {
     [[ -f $HOME/.zshrc ]] && cp $HOME/.zshrc zshrc
     [[ -f $HOME/.aliases.zsh ]] && cp $HOME/.aliases.zsh aliases.zsh
     [[ -f $HOME/.functions.zsh ]] && cp $HOME/.functions.zsh functions.zsh
+
+    [[ -f $HOME/.p10k.zsh ]] && cp $HOME/.p10k.zsh p10k.zsh
+
+    [[ -f $HOME/.iterm2.json ]] && cp $HOME/.iterm2.json iterm2.json
 
     [[ -f $HOME/.bashrc ]] && cp $HOME/.bashrc bashrc
     [[ -f $HOME/.bash_aliases ]] && cp $HOME/.bash_aliases bash_aliases
