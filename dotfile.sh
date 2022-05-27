@@ -21,6 +21,9 @@ function install() {
 
     [[ -f p10k.zsh ]] && cp functions.zsh $HOME/.p10k.zsh
 
+    mkdir -p $HOME/.k9s
+    [[ -d k9s ]] && cp -r k9s $HOME/.k9s
+
     [[ -f iterm2.json ]] && cp iterm2.json $HOME/.iterm2.json
 
     [[ -f bashrc ]] && cp bashrc $HOME/.bashrc
@@ -48,6 +51,8 @@ function backup() {
 
     [[ -f $HOME/.p10k.zsh ]] && cp $HOME/.p10k.zsh p10k.zsh
 
+    [[ -d $HOME/.k9s ]] && cp -r $HOME/.k9s k9s
+
     [[ -f $HOME/.iterm2.json ]] && cp $HOME/.iterm2.json iterm2.json
 
     [[ -f $HOME/.bashrc ]] && cp $HOME/.bashrc bashrc
@@ -69,6 +74,13 @@ function backup() {
     sed -i 's/signingkey =.*/signinkey = <to_replace>/' gitconfig
     sed -i 's/name =.*/name = <to_replace>/' gitconfig
     sed -i 's/email =.*/email = <to_replace>/' gitconfig
+
+    if [[ -f k9s/config.yml ]]; then
+        yq -i 'del(.k9s.clusters.*)' k9s/config.yml
+        yq -i 'del(.k9s.currentContext)' k9s/config.yml
+        yq -i 'del(.k9s.currentCluster)' k9s/config.yml
+        yq -i 'del(.k9s.screenDumpDir)' k9s/config.yml
+    fi
 }
 
 
