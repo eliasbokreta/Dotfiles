@@ -19,7 +19,7 @@ function install() {
     [[ -f aliases.zsh ]] && cp aliases.zsh $HOME/.aliases.zsh
     [[ -f functions.zsh ]] && cp functions.zsh $HOME/.functions.zsh
 
-    [[ -f p10k.zsh ]] && cp functions.zsh $HOME/.p10k.zsh
+    [[ -f p10k.zsh ]] && cp p10k.zsh $HOME/.p10k.zsh
 
     mkdir -p $HOME/.k9s
     [[ -d k9s ]] && cp -r k9s $HOME/.k9s
