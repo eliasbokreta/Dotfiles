@@ -22,7 +22,7 @@ function install() {
     [[ -f p10k.zsh ]] && cp p10k.zsh $HOME/.p10k.zsh
 
     mkdir -p $HOME/.k9s
-    [[ -d k9s ]] && cp -r k9s $HOME/.k9s
+    [[ -d k9s ]] && cp -r k9s/* $HOME/.k9s
 
     [[ -f iterm2.json ]] && cp iterm2.json $HOME/.iterm2.json
 
@@ -51,7 +51,8 @@ function backup() {
 
     [[ -f $HOME/.p10k.zsh ]] && cp $HOME/.p10k.zsh p10k.zsh
 
-    [[ -d $HOME/.k9s ]] && cp -r $HOME/.k9s k9s
+    mkdir -p k9s
+    [[ -d $HOME/.k9s ]] && cp -r $HOME/.k9s/* k9s
 
     [[ -f $HOME/.iterm2.json ]] && cp $HOME/.iterm2.json iterm2.json
 
