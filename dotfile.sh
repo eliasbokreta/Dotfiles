@@ -72,7 +72,7 @@ function backup() {
 
     [[ -f $HOME/.vimrc ]] && cp $HOME/.vimrc vimrc
 
-    sed -i 's/signingKey =.*/signingKey = <to_replace>/' gitconfig
+    sed -i 's/signingkey =.*/signingkey = <to_replace>/' gitconfig
     sed -i 's/name =.*/name = <to_replace>/' gitconfig
     sed -i 's/email =.*/email = <to_replace>/' gitconfig
 
