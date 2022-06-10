@@ -1,8 +1,8 @@
 # dotfiles
 
 ## Script usage
-The `dotfile.sh` script is used to backup / install dotfiles.
+The `dotfile.sh` script is used to import / export dotfiles.
 `./dotfile.sh <action>`
 actions :
-  - --backup, -b  : Backup dotfiles to current directory
-  - --install, -i : Import dotfiles to homedir
+  - --export, -e  : Export dotfiles to script's directory
+  - --import, -i : Import dotfiles to the user's home directory

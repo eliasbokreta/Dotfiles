@@ -4,17 +4,19 @@ set -e
 
 function usage() {
     echo "Usage : $0 <action> [email]"
-    echo "  --backup, -b  : Backup dotfiles to current folder"
-    echo "  --install, -i : Import dotfiles to homedir"
+    echo "  --export, -b  : Export dotfiles to script's directory"
+    echo "  --import, -i  : Import dotfiles to the user's home directory"
 }
 
 if [[ "$#" -eq 0 ]]; then
-    echo "[ERROR] You must specify backup or import"
+    echo "[ERROR] You must specify export or import"
     usage
     exit 1
 fi
 
-function install() {
+function import_dotfiles() {
+    echo "Importing dotfiles..."
+
     [[ -f zshrc ]] && cp zshrc $HOME/.zshrc
     [[ -f aliases.zsh ]] && cp aliases.zsh $HOME/.aliases.zsh
     [[ -f functions.zsh ]] && cp functions.zsh $HOME/.functions.zsh
@@ -39,12 +41,16 @@ function install() {
 
     [[ -f tmux.conf ]] && cp tmux.conf $HOME/.tmux.conf
     mkdir -p $HOME/.tmux
-    [[ -d tmux ]] && cp -r tmux/* $HOME/.tmux/
+    [[ -d tmux ]] && cp -r tmux/* $HOME/.tmux/ && chmod +x $HOME/.tmux/*
 
     [[ -f tmux ]] && cp vimrc $HOME/.vimrc
+
+    echo "Dotfiles imported"
 }
 
-function backup() {
+function export_dotfiles() {
+    echo "Exporting dotfiles..."
+
     [[ -f $HOME/.zshrc ]] && cp $HOME/.zshrc zshrc
     [[ -f $HOME/.aliases.zsh ]] && cp $HOME/.aliases.zsh aliases.zsh
     [[ -f $HOME/.functions.zsh ]] && cp $HOME/.functions.zsh functions.zsh
@@ -82,6 +88,8 @@ function backup() {
         yq -i 'del(.k9s.currentCluster)' k9s/config.yml
         yq -i 'del(.k9s.screenDumpDir)' k9s/config.yml
     fi
+
+    echo "Dotfiles exported"
 }
 
 
@@ -92,13 +100,11 @@ case $action in
         usage
         exit 0
         ;;
-    "--backup" | "-b")
-        backup
-        echo "Backup done"
+    "--export" | "-b")
+        export_dotfiles
         ;;
-    "--install" | "-i")
-        install
-        echo "Dotfiles imported"
+    "--import" | "-i")
+        import_dotfiles
         ;;
     *)
         echo "[ERROR] '$1' is not a valid argument"
