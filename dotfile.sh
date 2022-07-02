@@ -17,33 +17,33 @@ fi
 function import_dotfiles() {
     echo "Importing dotfiles..."
 
-    [[ -f zshrc ]] && cp zshrc $HOME/.zshrc
-    [[ -f aliases.zsh ]] && cp aliases.zsh $HOME/.aliases.zsh
-    [[ -f functions.zsh ]] && cp functions.zsh $HOME/.functions.zsh
+    [[ -f zshrc ]] && cp zshrc "$HOME"/.zshrc
+    [[ -f aliases.zsh ]] && cp aliases.zsh "$HOME"/.aliases.zsh
+    [[ -f functions.zsh ]] && cp functions.zsh "$HOME"/.functions.zsh
 
-    [[ -f p10k.zsh ]] && cp p10k.zsh $HOME/.p10k.zsh
+    [[ -f p10k.zsh ]] && cp p10k.zsh "$HOME"/.p10k.zsh
 
-    mkdir -p $HOME/.k9s
-    [[ -d k9s ]] && cp -r k9s/* $HOME/.k9s
+    mkdir -p "$HOME"/.k9s
+    [[ -d k9s ]] && cp -r k9s/* "$HOME"/.k9s
 
-    [[ -f iterm2.json ]] && cp iterm2.json $HOME/.iterm2.json
+    [[ -f iterm2.json ]] && cp iterm2.json "$HOME"/.iterm2.json
 
-    [[ -f bashrc ]] && cp bashrc $HOME/.bashrc
-    [[ -f bash_aliases ]] && cp bash_aliases $HOME/.bash_aliases
+    [[ -f bashrc ]] && cp bashrc "$HOME"/.bashrc
+    [[ -f bash_aliases ]] && cp bash_aliases "$HOME"/.bash_aliases
 
-    mkdir -p $HOME/.config
-    [[ -d config ]] && cp -r config/* $HOME/.config/
+    mkdir -p "$HOME"/.config
+    [[ -d config ]] && cp -r config/* "$HOME"/.config/
 
-    [[ -f gitconfig ]] && cp gitconfig $HOME/.gitconfig
+    [[ -f gitconfig ]] && cp gitconfig "$HOME"/.gitconfig
 
-    [[ -f terraformrc ]] && cp terraformrc $HOME/.terraformrc
-    [[ -f tflint.hcl ]] && cp tflint.hcl $HOME/.tflint.hcl
+    [[ -f terraformrc ]] && cp terraformrc "$HOME"/.terraformrc
+    [[ -f tflint.hcl ]] && cp tflint.hcl "$HOME"/.tflint.hcl
 
-    [[ -f tmux.conf ]] && cp tmux.conf $HOME/.tmux.conf
-    mkdir -p $HOME/.tmux
-    [[ -d tmux ]] && cp -r tmux/* $HOME/.tmux/ && chmod +x $HOME/.tmux/*
+    [[ -f tmux.conf ]] && cp tmux.conf "$HOME"/.tmux.conf
+    mkdir -p "$HOME"/.tmux
+    [[ -d tmux ]] && cp -r tmux/* "$HOME"/.tmux/ && chmod +x "$HOME"/.tmux/*
 
-    [[ -f tmux ]] && cp vimrc $HOME/.vimrc
+    [[ -f tmux ]] && cp vimrc "$HOME"/.vimrc
 
     echo "Dotfiles imported"
 }
@@ -51,32 +51,32 @@ function import_dotfiles() {
 function export_dotfiles() {
     echo "Exporting dotfiles..."
 
-    [[ -f $HOME/.zshrc ]] && cp $HOME/.zshrc zshrc
-    [[ -f $HOME/.aliases.zsh ]] && cp $HOME/.aliases.zsh aliases.zsh
-    [[ -f $HOME/.functions.zsh ]] && cp $HOME/.functions.zsh functions.zsh
+    [[ -f $HOME/.zshrc ]] && cp "$HOME"/.zshrc zshrc
+    [[ -f $HOME/.aliases.zsh ]] && cp "$HOME"/.aliases.zsh aliases.zsh
+    [[ -f $HOME/.functions.zsh ]] && cp "$HOME"/.functions.zsh functions.zsh
 
-    [[ -f $HOME/.p10k.zsh ]] && cp $HOME/.p10k.zsh p10k.zsh
+    [[ -f $HOME/.p10k.zsh ]] && cp "$HOME"/.p10k.zsh p10k.zsh
 
     mkdir -p k9s
-    [[ -d $HOME/.k9s ]] && cp -r $HOME/.k9s/* k9s
+    [[ -d $HOME/.k9s ]] && cp -r "$HOME"/.k9s/* k9s
 
-    [[ -f $HOME/.iterm2.json ]] && cp $HOME/.iterm2.json iterm2.json
+    [[ -f $HOME/.iterm2.json ]] && cp "$HOME"/.iterm2.json iterm2.json
 
-    [[ -f $HOME/.bashrc ]] && cp $HOME/.bashrc bashrc
-    [[ -f $HOME/.bash_aliases ]] && cp $HOME/.bash_aliases bash_aliases
+    [[ -f $HOME/.bashrc ]] && cp "$HOME"/.bashrc bashrc
+    [[ -f $HOME/.bash_aliases ]] && cp "$HOME"/.bash_aliases bash_aliases
 
     mkdir -p config
-    [[ -d $HOME/.config/bat ]] && cp -r $HOME/.config/bat config/
+    [[ -d $HOME/.config/bat ]] && cp -r "$HOME"/.config/bat config/
 
-    [[ -f $HOME/.gitconfig ]] && cp $HOME/.gitconfig gitconfig
+    [[ -f $HOME/.gitconfig ]] && cp "$HOME"/.gitconfig gitconfig
 
-    [[ -f $HOME/.terraformrc ]] && cp $HOME/.terraformrc terraformrc
-    [[ -f $HOME/.tflint.hcl ]] && cp $HOME/.tflint.hcl tflint.hcl
+    [[ -f $HOME/.terraformrc ]] && cp "$HOME"/.terraformrc terraformrc
+    [[ -f $HOME/.tflint.hcl ]] && cp "$HOME"/.tflint.hcl tflint.hcl
 
-    [[ -f $HOME/.tmux.conf ]] && cp $HOME/.tmux.conf tmux.conf
-    [[ -d $HOME/.tmux ]] && cp -r $HOME/.tmux tmux
+    [[ -f $HOME/.tmux.conf ]] && cp "$HOME"/.tmux.conf tmux.conf
+    [[ -d $HOME/.tmux ]] && cp -r "$HOME"/.tmux tmux
 
-    [[ -f $HOME/.vimrc ]] && cp $HOME/.vimrc vimrc
+    [[ -f $HOME/.vimrc ]] && cp "$HOME"/.vimrc vimrc
 
     sed -i 's/signingkey =.*/signingkey = <to_replace>/' gitconfig
     sed -i 's/name =.*/name = <to_replace>/' gitconfig
@@ -91,7 +91,6 @@ function export_dotfiles() {
 
     echo "Dotfiles exported"
 }
-
 
 action=$1
 
