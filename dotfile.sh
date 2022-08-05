@@ -35,6 +35,8 @@ function import_dotfiles() {
     [[ -d config ]] && cp -r config/* "$HOME"/.config/
 
     [[ -f gitconfig ]] && cp gitconfig "$HOME"/.gitconfig
+    [[ -d git-templates ]] && cp -r git-templates "$HOME"/.git-templates
+    [[ -f gitignore ]] && cp -r gitignore "$HOME"/.gitignore
 
     [[ -f terraformrc ]] && cp terraformrc "$HOME"/.terraformrc
     [[ -f tflint.hcl ]] && cp tflint.hcl "$HOME"/.tflint.hcl
@@ -69,12 +71,14 @@ function export_dotfiles() {
     [[ -d $HOME/.config/bat ]] && cp -r "$HOME"/.config/bat config/
 
     [[ -f $HOME/.gitconfig ]] && cp "$HOME"/.gitconfig gitconfig
+    [[ -d $HOME/.git-templates ]] && cp -r "$HOME"/.git-templates/ git-templates
+    [[ -f $HOME/.gitignore ]] && cp -r "$HOME"/.gitignore gitignore
 
     [[ -f $HOME/.terraformrc ]] && cp "$HOME"/.terraformrc terraformrc
     [[ -f $HOME/.tflint.hcl ]] && cp "$HOME"/.tflint.hcl tflint.hcl
 
     [[ -f $HOME/.tmux.conf ]] && cp "$HOME"/.tmux.conf tmux.conf
-    [[ -d $HOME/.tmux ]] && cp -r "$HOME"/.tmux tmux
+    [[ -d $HOME/.tmux ]] && cp -r "$HOME"/.tmux/ tmux
 
     [[ -f $HOME/.vimrc ]] && cp "$HOME"/.vimrc vimrc
 
