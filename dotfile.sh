@@ -35,7 +35,7 @@ function export_dotfiles() {
   [[ -d $HOME/.config/bat ]] && cp -r "$HOME"/.config/bat config/
   [[ -d $HOME/.config/nvim ]] && cp -r "$HOME"/.config/nvim config/
   [[ -d $HOME/.config/alacritty ]] && cp -r "$HOME"/.config/alacritty config/
-  
+
   [[ -f $HOME/.gitconfig ]] && cp "$HOME"/.gitconfig gitconfig
   [[ -d $HOME/.git-templates ]] && cp -r "$HOME"/.git-templates/ git-templates
   [[ -f $HOME/.gitignore ]] && cp -r "$HOME"/.gitignore gitignore
@@ -61,7 +61,6 @@ function export_dotfiles() {
 
   echo "Dotfiles exported"
 }
-
 
 function import_dotfiles() {
   echo "Importing dotfiles..."
