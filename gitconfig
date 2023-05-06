@@ -1,0 +1,44 @@
+[user]
+	signingkey = <to_replace>
+	name = <to_replace>
+	email = <to_replace>
+
+[core]
+	editor = "nvim"
+
+[commit]
+	gpgsign = true
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+
+[alias]
+	br = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) %(color:blue)[%(authorname)]' --sort=-committerdate
+	brr = branch -r --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) %(color:blue)[%(authorname)]' --sort=-committerdate
+	cm = commit -m
+	co = checkout
+	cob = checkout -b
+	fa = fetch --all
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	ls = ls-files
+	prev = log -1 HEAD --stat --color --graph
+	res = !git reset --hard
+	st = status -sb
+	undo = reset HEAD~1 --mixed
+
+[pull]
+	ff = yes
+
+[merge]
+	commit = no
+	ff = no
+
+[init]
+	defaultBranch = master
+
+[core]
+	excludesFile = ~/.gitignore
+	hooksPath = ~/.git-templates/hooks
+
+[push]
+	autoSetupRemote = yes

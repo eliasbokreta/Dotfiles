@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# ==========================================================================
+# Custom pre-commit git hook
+# Requirements :
+#           - tflint : source => https://github.com/terraform-linters/tflint
+# ==========================================================================
+# Features:
+#   - Terraform :
+#       - EOF newline checks
+#       - terraform fmt
+#       - tflint
+# ==========================================================================
+
+ROOT_DIR=$(git rev-parse --show-toplevel)
+
+NC="\033[0m"
+RED="\033[0;31m"
+ORANGE="\033[0;33m"
+BLUE="\033[1;34m"
+
+
+# ========================= #
+#      General checks       #
+# ========================= #
+function _general_checks() {
+    echo -e "${BLUE}[TODO]${NC} Checking for TODO commentaries"
+    if grep -qri "// todo"; then
+        output=$(grep -niro "// todo")
+        echo -e "${RED}[Error]${NC}${ORANGE}[TODO]${NC} Found remaining todo commentaries:\n${ORANGE}${output}${NC}"
+        exit 1
+    fi
+}
+
+# ========================= #
+# Terraform specific checks #
+# ========================= #
+function _terraform() {
+    echo -e "${BLUE}[PRECOMMIT]${NC} Checking for EOF newline"
+    for TF_FILE in $1; do
+        if [ "$(tail -c 1 "${TF_FILE}")" != "" ]; then
+            echo -e "${RED}[Error]${NC}${ORANGE}[EOF]${NC} ${TF_FILE} is missing EOF newline"
+            exit 1
+        fi
+    done
+
+    TF_DIRS=$(echo "$1" | sed -E 's|/[^/]+$|/|' | uniq)
+
+    echo -e "${BLUE}[PRECOMMIT]${NC} Running 'terraform fmt' and tflint"
+    for TF_DIR in $TF_DIRS; do
+        if ! output="$(terraform fmt -recursive -diff --check "${TF_DIR}")"; then
+            echo -e "${RED}[Error]${NC}${ORANGE}[FMT]${NC} ${TF_DIR} => ${output}"
+            exit 1
+        fi
+        if ! ls "${TF_DIR}" | grep -qs 'tfvars'; then
+          if ! output="$(cd "${TF_DIR}" && tflint)"; then
+              echo -e "${RED}[Error]${NC}${ORANGE}[TFLINT]${NC} ${TF_DIR} => ${output}"
+              exit 1
+          fi
+        fi
+    done
+}
+
+#_general_checks
+
+TF_FILES=$(git status --porcelain=1 | grep -E '^A|^M' | grep -E '\.(tf(vars)?)$' | awk '{print $2}' | grep -v '.terraform/')
+
+if [ ! -z "${TF_FILES}" ]; then
+    echo -e "${BLUE}[PRECOMMIT]${NC} Terraform checks ..."
+    _terraform "$TF_FILES"
+else
+    echo -e "${BLUE}[PRECOMMIT]${NC} No staged Terraform files"
+fi

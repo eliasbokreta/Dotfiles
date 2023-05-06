@@ -1,0 +1,11 @@
+# OSX
+.DS_Store
+
+# TERRAFORM
+.terraform/
+
+# CUSTOM
+nocommit/
+
+# IDE
+.vscode/

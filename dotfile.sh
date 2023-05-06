@@ -5,10 +5,6 @@ set -e
 SCRIPT=$(realpath "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 
-echo "$SCRIPT"
-
-echo "$SCRIPTPATH"
-
 function usage() {
   echo "Usage : $0 <action>"
   echo "  --backup, -e  : Save dotfiles to current directory"
