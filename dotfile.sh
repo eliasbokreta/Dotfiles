@@ -2,20 +2,31 @@
 
 set -e
 
+SCRIPT=$(realpath "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+
+echo "$SCRIPT"
+
+echo "$SCRIPTPATH"
+
 function usage() {
   echo "Usage : $0 <action>"
-  echo "  --export, -e  : Save dotfiles to current directory"
+  echo "  --backup, -e  : Save dotfiles to current directory"
   echo "  --import, -i  : Import dotfiles to the user's home directory"
 }
 
 if [[ "$#" -eq 0 ]]; then
-  echo "[ERROR] You must specify an action (--export / --import)"
+  echo "[ERROR] You must specify an action (--backup / --import)"
   usage
   exit 1
 fi
 
-function export_dotfiles() {
-  echo "Exporting dotfiles..."
+function _clean_existing_dotfiles() {
+  (cd "${SCRIPTPATH}" && ls | grep -xvE "README.md|dotfile.sh" | xargs rm -rfi)
+}
+
+function backup_dotfiles() {
+  echo "Saving dotfiles..."
 
   [[ -f $HOME/.zshrc ]] && cp "$HOME"/.zshrc zshrc
   [[ -f $HOME/.aliases.zsh ]] && cp "$HOME"/.aliases.zsh aliases.zsh
@@ -25,11 +36,6 @@ function export_dotfiles() {
 
   mkdir -p k9s
   [[ -d $HOME/.k9s ]] && cp -r "$HOME"/.k9s/* k9s
-
-  [[ -f $HOME/.iterm2.json ]] && cp "$HOME"/.iterm2.json iterm2.json
-
-  [[ -f $HOME/.bashrc ]] && cp "$HOME"/.bashrc bashrc
-  [[ -f $HOME/.bash_aliases ]] && cp "$HOME"/.bash_aliases bash_aliases
 
   mkdir -p config
   [[ -d $HOME/.config/bat ]] && cp -r "$HOME"/.config/bat config/
@@ -48,9 +54,18 @@ function export_dotfiles() {
 
   [[ -f $HOME/.vimrc ]] && cp "$HOME"/.vimrc vimrc
 
-  sed -i 's/signingkey =.*/signingkey = <to_replace>/' gitconfig
-  sed -i 's/name =.*/name = <to_replace>/' gitconfig
-  sed -i 's/email =.*/email = <to_replace>/' gitconfig
+  [[ $(uname -s) == 'Darwin' ]] && brew bundle dump --force
+
+  [[ $(command -v code) ]] && mkdir -p vscode && code --list-extensions > vscode/vscode_extensions.txt
+
+  if [[ $(uname -s) == 'Darwin' ]] && [[ $(command -v code) ]]; then
+    jq 'del(."jenkins.pipeline.linter.connector.user", ."jenkins.pipeline.linter.connector.url", ."jenkins.pipeline.linter.connector.token", ."jenkins.pipeline.linter.connector.crumbUrl", ."jenkins.pipeline.linter.connector.pass" )' "$HOME/Library/Application Support/Code/User/settings.json" > vscode/settings.json
+    cp "$HOME/Library/Application Support/Code/User/keybindings.json" vscode/keybindings.json
+  fi
+
+  gsed -i 's/signingkey =.*/signingkey = <to_replace>/' gitconfig
+  gsed -i 's/name =.*/name = <to_replace>/' gitconfig
+  gsed -i 's/email =.*/email = <to_replace>/' gitconfig
 
   if [[ -f k9s/config.yml ]]; then
     yq -i 'del(.k9s.clusters.*)' k9s/config.yml
@@ -59,7 +74,7 @@ function export_dotfiles() {
     yq -i 'del(.k9s.screenDumpDir)' k9s/config.yml
   fi
 
-  echo "Dotfiles exported"
+  echo "Dotfiles saved"
 }
 
 function import_dotfiles() {
@@ -73,11 +88,6 @@ function import_dotfiles() {
 
   mkdir -p "$HOME"/.k9s
   [[ -d k9s ]] && cp -r k9s/* "$HOME"/.k9s
-
-  [[ -f iterm2.json ]] && cp iterm2.json "$HOME"/.iterm2.json
-
-  [[ -f bashrc ]] && cp bashrc "$HOME"/.bashrc
-  [[ -f bash_aliases ]] && cp bash_aliases "$HOME"/.bash_aliases
 
   mkdir -p "$HOME"/.config
   [[ -d config ]] && cp -r config/* "$HOME"/.config/
@@ -105,8 +115,8 @@ case $action in
     usage
     exit 0
     ;;
-  "--export" | "-e")
-    export_dotfiles
+  "--backup" | "-e")
+    backup_dotfiles
     ;;
   "--import" | "-i")
     import_dotfiles
