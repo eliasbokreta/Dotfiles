@@ -44,7 +44,6 @@ esac
 
 [ -f ~/.aliases.zsh ] && source ~/.aliases.zsh
 [ -f ~/.functions.zsh ] && source ~/.functions.zsh
-
 [ -f ~/.cs_internal.zsh ] && source ~/.cs_internal.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

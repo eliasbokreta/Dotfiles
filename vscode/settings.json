@@ -3,7 +3,7 @@
   "partialDiff.enableTelemetry": false,
   "telemetry.telemetryLevel": "off",
   "redhat.telemetry.enabled": false,
-  "customWindowZoom.zoomLevelChangeValue": 0.2,
+  "customWindowZoom.zoomLevelChangeValue": 0.1,
   "files.insertFinalNewline": true,
   "files.exclude": {
     "*//.git": true,
@@ -94,8 +94,11 @@
     "git",
     "gitfs"
   ],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.shellcheck": true
+  "[shellscript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.shellcheck": true
+    },
+    "files.eol": "\n"
   },
   "svg.preview.mode": "svg",
   "explorer.confirmDragAndDrop": false,
@@ -114,5 +117,7 @@
   },
   "tabnine.experimentalAutoImports": true,
   "editor.largeFileOptimizations": false,
-  "window.zoomLevel": 1
+  "python.languageServer": "Pylance",
+  "window.zoomLevel": 0.9,
+  "python.defaultInterpreterPath": "python3"
 }

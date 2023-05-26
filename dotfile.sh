@@ -37,6 +37,7 @@ function backup_dotfiles() {
   [[ -d $HOME/.config/bat ]] && cp -r "$HOME"/.config/bat config/
   [[ -d $HOME/.config/nvim ]] && cp -r "$HOME"/.config/nvim config/
   [[ -d $HOME/.config/alacritty ]] && cp -r "$HOME"/.config/alacritty config/
+  [[ -d $HOME/.config/lsd ]] && cp -r "$HOME"/.config/lsd config/
 
   [[ -f $HOME/.gitconfig ]] && cp "$HOME"/.gitconfig gitconfig
   [[ -d $HOME/.git-templates ]] && cp -r "$HOME"/.git-templates/ git-templates
@@ -59,9 +60,9 @@ function backup_dotfiles() {
     cp "$HOME/Library/Application Support/Code/User/keybindings.json" vscode/keybindings.json
   fi
 
-  gsed -i 's/signingkey =.*/signingkey = <to_replace>/' gitconfig
-  gsed -i 's/name =.*/name = <to_replace>/' gitconfig
-  gsed -i 's/email =.*/email = <to_replace>/' gitconfig
+  sed -i 's/signingkey =.*/signingkey = <to_replace>/' gitconfig
+  sed -i 's/name =.*/name = <to_replace>/' gitconfig
+  sed -i 's/email =.*/email = <to_replace>/' gitconfig
 
   if [[ -f k9s/config.yml ]]; then
     yq -i 'del(.k9s.clusters.*)' k9s/config.yml

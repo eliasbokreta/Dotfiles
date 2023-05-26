@@ -31,4 +31,6 @@ scala-lang.scala
 t-nano.markdown-to-confluence-vscode
 TabNine.tabnine-vscode
 timonwong.shellcheck
+VisualStudioExptTeam.intellicode-api-usage-examples
+VisualStudioExptTeam.vscodeintellicode
 yzhang.markdown-all-in-one

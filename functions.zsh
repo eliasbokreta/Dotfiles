@@ -6,6 +6,10 @@ function gdiff() {
     git diff $@ --name-only | fzf -m --ansi --preview $preview --info=inline --border --preview-window 'up,90%,border-bottom,+{2}+3/3,~3'
 }
 
+function gico() {
+   git branch | grep -v "^\*" | fzf --height=20% --reverse --info=inline | xargs git checkout
+}
+
 function tf_remove_empty_ws() {
     tws default
     for WS in $(twl | cut -c3-); do
@@ -16,11 +20,7 @@ function tf_remove_empty_ws() {
     done
 }
 
-function gico() {
-   git branch | grep -v "^\*" | fzf --height=20% --reverse --info=inline | xargs git checkout
-}
-
-function tf_format_all() {
+function tfmt_all() {
     # Format all terraform files found. $1 Can be given to add another path than the current one
     for TF_DIR in $(fd -H -p --type=f "\.(tf?)$" --exclude ".terraform" $1 | sed -E 's|/[^/]+$|/|' | uniq); do
         echo "[INFO] Formating $TF_DIR"
@@ -33,6 +33,7 @@ function tf_format_all() {
     done
 
     for TF_VAR in $(fd -H -p --type=f "\.(vars?)$" --exclude ".terraform" . | sed -E 's|/[^/]+$|/|' | uniq); do
+        echo "[INFO] Formating $TF_VAR"
         (
             cd "$TF_VAR" && \
             terraform fmt -recursive .
