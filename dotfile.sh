@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 SCRIPT=$(realpath "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 
@@ -51,7 +49,7 @@ function backup_dotfiles() {
 
   [[ -f $HOME/.vimrc ]] && cp "$HOME"/.vimrc vimrc
 
-  [[ $(uname -s) == 'Darwin' ]] && brew bundle dump --force
+  [[ $(uname -s) == 'Darwin' ]] && rm -f Brewfile && brew bundle dump --force
 
   [[ $(command -v code) ]] && mkdir -p vscode && code --list-extensions > vscode/vscode_extensions.txt
 
