@@ -119,5 +119,5 @@
   "editor.largeFileOptimizations": false,
   "python.languageServer": "Pylance",
   "window.zoomLevel": 0.9,
-  "python.defaultInterpreterPath": "python3"
+  "python.defaultInterpreterPath": "/opt/homebrew/bin/python3"
 }
