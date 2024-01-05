@@ -37,3 +37,4 @@ rule "terraform_typed_variables" {
 rule "terraform_deprecated_index" {
   enabled = true
 }
+

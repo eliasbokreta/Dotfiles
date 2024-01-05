@@ -50,7 +50,7 @@
   "go.toolsManagement.autoUpdate": true,
   "[go]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     },
     "editor.formatOnSave": true
   },
@@ -96,7 +96,7 @@
   ],
   "[shellscript]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll.shellcheck": true
+      "source.fixAll.shellcheck": "explicit"
     },
     "files.eol": "\n"
   },
@@ -118,6 +118,11 @@
   "tabnine.experimentalAutoImports": true,
   "editor.largeFileOptimizations": false,
   "python.languageServer": "Pylance",
-  "window.zoomLevel": 0.9,
-  "python.defaultInterpreterPath": "/opt/homebrew/bin/python3"
+  "python.defaultInterpreterPath": "/opt/homebrew/bin/python3",
+  "files.watcherExclude": {
+    "**/.bloop": true,
+    "**/.metals": true,
+    "**/.ammonite": true
+  },
+  "window.zoomLevel": 1
 }

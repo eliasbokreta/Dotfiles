@@ -3,6 +3,7 @@ arcticicestudio.nord-visual-studio-code
 brunnerh.file-properties-viewer
 craigb85.custom-window-zoom
 enkia.tokyo-night
+geequlim.godot-tools
 GitHub.github-vscode-theme
 golang.go
 Grafana.vscode-jsonnet
@@ -31,6 +32,7 @@ ritwickdey.LiveServer
 ryu1kn.partial-diff
 samuelcolvin.jinjahtml
 scala-lang.scala
+scalameta.metals
 t-nano.markdown-to-confluence-vscode
 TabNine.tabnine-vscode
 timonwong.shellcheck

@@ -17,7 +17,7 @@ function gdiff() {
 
 function gico() {
     # Git interactive checkout
-    git branch | grep -v "^\*" | fzf --height=20% --reverse --info=inline | xargs git checkout
+    git branch --sort=-committerdate | grep -v "^\*" | fzf --height=20% --reverse --info=inline | xargs git checkout
 }
 
 function tf_rm_ws() {
@@ -41,23 +41,19 @@ function tf_fmta() {
     DIR=$1
     for TF_DIR in $(fd -H -p --type=f "\.(tf?)$" --exclude ".terraform" $DIR | sed -E 's|/[^/]+$|/|' | uniq); do
         (
-            {
-                echo "[INFO] Formating $TF_DIR" && \
-                cd "$TF_DIR" &&  \
-                rm -rf .terraform && \
-                t init > /dev/null && \
-                tfmt
-            } &
+            echo "[INFO] Formating $TF_DIR" && \
+            cd "$TF_DIR" &&  \
+            rm -rf .terraform && \
+            t init > /dev/null && \
+            tfmt
         )
     done
 
     for TF_VAR in $(fd -H -p --type=f "\.(vars?)$" --exclude ".terraform" $DIR | sed -E 's|/[^/]+$|/|' | uniq); do
         (
-            {
-                echo "[INFO] Formating $TF_VAR" && \
-                cd "$TF_VAR" && \
-                terraform fmt -recursive .
-            } &
+            echo "[INFO] Formating $TF_VAR" && \
+            cd "$TF_VAR" && \
+            terraform fmt -recursive .
         )
     done
 }
@@ -68,23 +64,19 @@ function tf_init() {
     for TF_DIR in $(fd -H -p --type=f "\.(tf?)$" --exclude ".terraform" $DIR | sed -E 's|/[^/]+$|/|' | uniq); do
         if [[ -d "$TF_DIR" ]]; then
             (
-                {
-                    echo "[INFO] Init $TF_DIR" && \
-                    cd "$TF_DIR" && \
-                    rm -rf .terraform && \
-                    rm -rf .terraform.lock.hcl && \
-                    t init > /dev/null && \
-                    tlock
-                } &
-            )
-        else
-            {
-                echo "[INFO] Init current directory" && \
+                echo "[INFO] Init $TF_DIR" && \
+                cd "$TF_DIR" && \
                 rm -rf .terraform && \
                 rm -rf .terraform.lock.hcl && \
                 t init > /dev/null && \
                 tlock
-            } &
+            )
+        else
+            echo "[INFO] Init current directory" && \
+            rm -rf .terraform && \
+            rm -rf .terraform.lock.hcl && \
+            t init > /dev/null && \
+            tlock
             break
         fi
     done
@@ -97,11 +89,29 @@ function tf_init() {
 
 function k_nv() {
     # Print all different Kubelet versions in all contexts grouped by labels nodegroup/agentpool (eks/aks)
-    for KCTX in $(kubie ctx | sort); do
-        (
-          kubie ctx $KCTX 2> /dev/null
-          echo $KCTX
-          kubectl get nodes -o jsonpath="{range .items[*]}{.status.nodeInfo.kubeletVersion}{' - '}{.metadata.labels.nodegroup}{.metadata.labels.agentpool}{'\n'}{end}" | sort | uniq -c
-        )
+    all=false
+    while getopts "ha" option; do
+      case ${option} in
+        a)
+          all=true;;
+        \?)
+          echo "Error: Invalid option"
+          return;;
+      esac
     done
+
+    cmd="kubectl get nodes -o jsonpath=\"{range .items[*]}{.status.nodeInfo.kubeletVersion}{' - '}{.metadata.labels.nodegroup}{.metadata.labels.agentpool}{'\n'}{end}\" | sort | uniq -c"
+
+
+    if [[ "$all" == true ]]; then
+      for KCTX in $(kubie ctx | sort); do
+          (
+            kubie ctx $KCTX 2> /dev/null
+            echo $KCTX
+            eval $cmd
+          )
+      done
+    else
+      eval $cmd
+    fi
 }

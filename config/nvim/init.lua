@@ -34,6 +34,9 @@ Plug('romgrk/barbar.nvim')
 Plug('nvim-tree/nvim-tree.lua')
 Plug('nvim-tree/nvim-web-devicons')
 
+-- Tmux --
+Plug('aserowy/tmux.nvim')
+
 vim.call('plug#end')
 
 -- Clipboard --
@@ -78,6 +81,9 @@ vim.o.shiftwidth = 2
 vim.o.expandtab = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
+vim.opt.whichwrap:append('<')
+vim.opt.whichwrap:append('>')
+
 --vim.o.termguicolors = true
 
 vim.opt.listchars = 'tab:→·,lead:·,trail:·,eol:↵,space:·'
@@ -167,7 +173,7 @@ local function on_attach_tree(bufnr)
   vim.keymap.set('n', '<',     api.node.navigate.sibling.prev,        opts('Previous Sibling'))
   vim.keymap.set('n', '.',     api.node.run.cmd,                      opts('Run Command'))
   vim.keymap.set('n', '-',     api.tree.change_root_to_parent,        opts('Up'))
-  -- vim.keymap.set('n', 'a',     api.fs.create,                         opts('Create'))
+  vim.keymap.set('n', 'a',     api.fs.create,                         opts('Create'))
   vim.keymap.set('n', 'bmv',   api.marks.bulk.move,                   opts('Move Bookmarked'))
   vim.keymap.set('n', 'B',     api.tree.toggle_no_buffer_filter,      opts('Toggle No Buffer'))
   -- vim.keymap.set('n', 'c',     api.fs.copy.node,                      opts('Copy'))
