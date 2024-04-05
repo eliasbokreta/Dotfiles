@@ -13,6 +13,7 @@ plugins=(
 
 [ -f $HOME/.oh-my-zsh/oh-my-zsh.sh ] && source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
+
 # DIRTY FIX FOR TERRAFORM GRPC PROVIDER ERRORS
 export GODEBUG=asyncpreemptoff=1
 
@@ -30,7 +31,7 @@ case "${COMPUTER_OS}" in
         ;;
     Darwin*)
         export PATH="$(brew --prefix)/bin:$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$(brew --prefix)/opt/grep/libexec/gnubin:$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$HOME/.cargo/bin:${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-        export JAVA_HOME=$(brew --prefix)/opt/java/libexec/openjdk.jdk/Contents/Home
+        source /opt/homebrew/opt/asdf/libexec/asdf.sh
         export HOMEBREW_NO_AUTO_UPDATE=true
         # Keybindings
         bindkey "^[[1;3D" backward-word # Option + L Arrow

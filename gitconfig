@@ -25,9 +25,11 @@
 	res = !git reset --hard
 	st = status -sb
   undo = reset HEAD~1 --mixed
-  amend-to = "!f() { SHA=`git rev-parse \"$1\"`; git commit --fixup \"$SHA\" && GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash \"$SHA^\"; }; f"
+  amend-to = "!f() { SHA=`git rev-parse \"$1\"`; git commit --fixup \"$SHA\" --no-verify && GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash \"$SHA^\"; }; f"
   amend-to-stash = "!f() { SHA=`git rev-parse \"$1\"`; git stash -k && git commit --fixup \"$SHA\" && GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash \"$SHA^\" && git stash pop; }; f"
   squash = "!f(){ git reset --soft HEAD~${1} && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; };f"
+  aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
+
 [pull]
 	ff = yes
 
@@ -43,4 +45,13 @@
 	hooksPath = ~/.git-templates/hooks
 
 [push]
-	autoSetupRemote = yes
+  autoSetupRemote = yes
+
+[difftool]
+  prompt = false
+
+[diff]
+  tool = nvimdiff
+
+[difftool "nvimdiff"]
+  cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""

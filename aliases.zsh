@@ -4,6 +4,11 @@ alias vi='nvim'
 alias vim='nvim'
 alias l='ls -ltrah'
 
+alias docker='podman'
+
+#alias awsp='eval $(aws-sso eval -p $(aws-sso list Profile --csv |fzf))' # yq '.SSOConfig | keys | .[]' ~/.aws-sso/config.yaml
+alias awsc='aws-sso console'
+
 if type lsd >/dev/null 2>&1; then;
     alias ls='lsd'
 fi
@@ -13,7 +18,7 @@ if type gawk >/dev/null 2>&1; then;
 fi
 
 if type icdiff >/dev/null 2>&1; then;
-    alias diff='icdiff'
+    alias diff='icdiff -N'
 fi
 
 if type fzf >/dev/null 2>&1; then;
@@ -50,6 +55,7 @@ if type kubectl >/dev/null 2>&1; then;
     alias kgd='k get deployments -o wide'
     alias kgs='k get svc -o wide'
     alias kgi='k get ingress'
+    alias kga='kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found'
     alias kgctn="k get po -o jsonpath='{range .items[*]}{\"pod: \"}{.metadata.name}{\"\n\"}{range .spec.containers[*]}{\"\tname: \"}{.name}{\"\n\timage: \"}{.image}{\"\n\"}{end}'"
 fi
 

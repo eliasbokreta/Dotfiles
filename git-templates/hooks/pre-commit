@@ -47,13 +47,17 @@ function _terraform() {
     TF_DIRS=$(echo "$1" | sed -E 's|/[^/]+$|/|' | uniq)
 
     echo -e "${BLUE}[PRECOMMIT]${NC} Running 'terraform fmt' and tflint"
+    BASE_PATH=$(pwd)
     for TF_DIR in $TF_DIRS; do
-        if ! output="$(terraform fmt -recursive -diff --check "${TF_DIR}")"; then
-            echo -e "${RED}[Error]${NC}${ORANGE}[FMT]${NC} ${TF_DIR} => ${output}"
+        cd "$BASE_PATH" || exit 1
+        cd "$TF_DIR" || exit 1
+        if ! output=$(terraform fmt -recursive -diff --check); then
+            COLORED_OUTPUT=$(echo "$output" | grep -E "^[+-~]" | sed -e "s/^-/\x1b[31m-/" -e "s/^\+/\x1b[32m+/")
+            echo -e "${RED}[Error]${NC}${ORANGE}[FMT]${NC} ${TF_DIR} => ${COLORED_OUTPUT}"
             exit 1
         fi
-        if ! ls "${TF_DIR}" | grep -qs 'tfvars'; then
-          if ! output="$(cd "${TF_DIR}" && tflint)"; then
+        if ! ls | grep -qs 'tfvars'; then
+          if ! output=$(tflint); then
               echo -e "${RED}[Error]${NC}${ORANGE}[TFLINT]${NC} ${TF_DIR} => ${output}"
               exit 1
           fi
